@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+int main() {
+	
+    int n;
+    scanf("%d", &n);
+    //Complete the code to calculate the sum of the five digits on n.
+    int sum = 0;
+    int trimmed = n;
+    for (int i=0; i<5; i++){
+        //printf("debug: i=%d", i);
+        sum = sum + (trimmed%10);
+        //printf(" sum=%d", sum);
+        trimmed = trimmed/10;
+        //printf(" trimmed=%d\n", trimmed);
+    }
+    printf("%d", sum);
+    return 0;
+}
