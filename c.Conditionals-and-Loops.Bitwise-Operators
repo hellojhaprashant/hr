@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+//Complete the following function.
+
+
+void calculate_the_maximum(int n, int k) {
+  //Write your code here.
+    int x = 0;
+    int y = 0;
+    int z = 0;
+    int max_and = 0;
+    int max_or = 0;
+    int max_xor = 0;
+    
+    for (int a=1; a<n; a++){
+        for (int b = (a+1); b <=n; b++){
+            x = a & b;
+            if ((x > max_and) && (x < k)){
+                max_and = x;
+            }
+            y = a | b;
+            if ((y > max_or) && (y < k)){
+                max_or = y;
+            }
+            z = a ^ b;
+            if ((z > max_xor) && (z < k)){
+                max_xor = z;
+            }
+        }
+    }
+        
+    printf ("%d\n%d\n%d", max_and, max_or, max_xor);
+}
+
+int main() {
+    int n, k;
+  
+    scanf("%d %d", &n, &k);
+    calculate_the_maximum(n, k);
+ 
+    return 0;
+}
