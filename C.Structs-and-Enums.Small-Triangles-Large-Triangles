@@ -1,0 +1,102 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+struct triangle
+{
+	int a;
+	int b;
+	int c;
+};
+
+typedef struct triangle triangle;
+
+struct area_index
+{
+    int index;
+    double area;
+};
+typedef struct area_index area_index;
+
+void sort_by_area(triangle* tr, int n) {
+    area_index *areas = malloc(n * sizeof(area_index));
+    double p = 0;
+    double area = 0;
+    int a = 0;
+    int b = 0;
+    int c = 0;
+    
+    for (int i = 0; i < n; i++) {
+        /*a = tr[i].a;
+        b = tr[i].b;
+        c = tr[i].c;
+        
+        printf("debug: %d) a=%d b=%d c=%d ", i, a, b, c);
+        
+        p = (a + b + c)/2.0;
+        printf("p=%f\n", p);*/
+        
+        p = ((tr[i].a + tr[i].b + tr[i].c)/2.0);
+        
+        
+        area = (sqrt(p*(p-tr[i].a)*(p-tr[i].b)*(p-tr[i].c)));
+        areas[i].index = i;
+        areas[i].area = area;
+
+        //printf("debug: %d) a=%d b=%d c=%d area=%f p=%f\n", i, tr[i].a, tr[i].b, tr[i].c, areas[i].area, p);
+    }
+    
+    /**
+	* Sort an array a of the length n
+	*/
+    int temp_index = 0;
+    double temp_area = 0;
+    triangle *temp_triangle = malloc(sizeof(triangle));
+    
+    for (int i=0; i<n; i++){
+        for (int j=0; j<n-i-1; j++){
+            if (areas[j].area > areas[j+1].area){
+                temp_index = areas[j].index;
+                temp_area = areas[j].area;
+                
+                temp_triangle->a = tr[j].a;
+                temp_triangle->b = tr[j].b;
+                temp_triangle->c = tr[j].c;
+                
+                areas[j].index = areas[j+1].index;
+                areas[j].area = areas[j+1].area;
+                
+                tr[j].a = tr[j+1].a;
+                tr[j].b = tr[j+1].b;
+                tr[j].c = tr[j+1].c;
+                
+                areas[j+1].index = temp_index;
+                areas[j+1].area = temp_area;
+                
+                tr[j+1].a = temp_triangle->a;
+                tr[j+1].b = temp_triangle->b;
+                tr[j+1].c = temp_triangle->c;
+            }
+        }
+    }
+    
+    /*
+    for (int i = 0; i < n; i++) {
+        printf("%d %d %d %f\n", tr[i].a, tr[i].b, tr[i].c, areas[i].area);
+    }
+    */
+}
+int main()
+{
+	int n;
+	scanf("%d", &n);
+	triangle *tr = malloc(n * sizeof(triangle));
+	for (int i = 0; i < n; i++) {
+		scanf("%d%d%d", &tr[i].a, &tr[i].b, &tr[i].c);
+	}
+	sort_by_area(tr, n);
+	for (int i = 0; i < n; i++) {
+		printf("%d %d %d\n", tr[i].a, tr[i].b, tr[i].c);
+	}
+	return 0;
+}
