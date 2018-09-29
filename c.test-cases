@@ -1,0 +1,11 @@
+CFunctionsPermutations of Strings
+Permutations of Strings
+
+Input:
+2
+cjlafhkw
+umuyauxpt
+
+Expected output:
+cjlafhkw umuyauxpt
+umuyauxpt cjlafhkw
