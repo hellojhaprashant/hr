@@ -93,23 +93,48 @@ int sort_by_length(const char* a, const char* b) {
 }
 
 /**
-copy b to a
+copy source to destination
 */
-void my_strcpy(char* a, char* b){
-    a = (char*)(realloc(a, (sizeof(char) * (strlen(b)+1))));
-    for (int i=0; i<strlen(b); i++){
-        *(a+i) = *(b+i);
+void my_strcpy(char* source, char* destination){
+    printf("debug: entered my_strcpy(); source=%s; destination=%s; strlen(source)=%d; strlen(destination)=%d\n",source, destination, strlen(source), strlen(destination));
+    destination = (char*)(realloc(destination, (sizeof(char) * (strlen(source)+1))));
+    for (int i=0; i<strlen(source); i++){
+        *(destination+i) = *(source+i);
     }
-    *(a+strlen(b)) = '\0';
+    *(destination+strlen(source)) = '\0';
+    printf("debug: leaving my_strcpy(); source=%s; destination=%s; strlen(source)=%d; strlen(destination)=%d\n",source, destination, strlen(source), strlen(destination));
 }
 
-void swap_strings(char* a, char* b){
+void swap_strings(char** a, char** b){
+    //printf("debug: entered swap_strings(); a=%s; b=%s\n", *a, *b);
+    
+    char* temp = *a;
+    //printf("debug: after copying a to temp a=%s; b=%s; temp=%s\n",*a, *b, temp);
+
+    *a = *b;
+    //printf("debug: after copying a to temp a=%s; b=%s; temp=%s\n",*a, *b, temp);
+    
+    *b = temp;
+    //printf("debug: after copying a to temp a=%s; b=%s; temp=%s\n",*a, *b, temp);
+    
+    //printf("debug: after copying a to temp a=%s; b=%s; temp=%s\n",*a, *b, temp);
+}
+
+void swap_strings_old(char** a, char** b){
+    printf("debug: entered swap_strings(); a=%s; b=%s\n", a, b);
+    
     char* temp = (char*)(malloc((strlen(a)+1)*sizeof(char)));
-    my_strcpy(temp, a);
-    //printf("debug: entered swap(); a=%s; b=%s; temp=%s\n",a, b, temp);
-    my_strcpy(a, b);
-    my_strcpy(b, temp);
-    //printf("debug: leaving swap(); a=%s; b=%s; temp=%s\n",a, b, temp);
+    printf("debug: will call my_strcpy with temp=%s; a=%s\n", temp, a);
+    my_strcpy(a, temp);
+    printf("debug: after copying a to temp a=%s; b=%s; temp=%s\n",a, b, temp);
+
+    my_strcpy(b, a);
+    printf("debug: after copying b to a a=%s; b=%s; temp=%s\n",a, b, temp);
+    
+    my_strcpy(temp, b);
+    printf("debug: after copying temp to b a=%s; b=%s; temp=%s\n",a, b, temp);
+    
+    printf("debug: leaving swap(); a=%s; b=%s; temp=%s\n",a, b, temp);
 }
 
 void string_sort(char** arr,const int len,int (*cmp_func)(const char* a, const char* b)){
@@ -127,15 +152,18 @@ void string_sort(char** arr,const int len,int (*cmp_func)(const char* a, const c
             //printf("debug: i=%d, j=%d, arr[j]=%s, arr[j+1]=%s, result=%d\n", i, j, arr[j], arr[j+1], result);
             if (result < 0){
                 //printf("debug: before calling swap(); arr[%d]=%s; arr[%d]=%s\n",j, arr[j], (j+1), arr[j+1]);
-                swap_strings(arr[j], arr[j+1]);
+                swap_strings(&arr[j], &arr[j+1]);
                 //printf("debug: after calling swap(); arr[%d]=%s; arr[%d]=%s\n",j, arr[j], (j+1), arr[j+1]);
             }
         }
+        /*
+        printf("\ndebug: at end of string_sort i=%d arr:\n", i);
+        for(int k = 0; k < len; k++)
+          printf("%s\n", arr[k]);
+        printf("\n\n");
+        */
     }
 }
-
-
-
 
 int main() 
 {
